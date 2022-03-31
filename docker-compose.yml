@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: autolify-fastapi
+    build: ./autolify-backend
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8080
+    ports:
+      - "8080:8080"
+    environment:
+      - ENVIRONMENT=dev
+      - TESTING=0
