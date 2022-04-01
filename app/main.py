@@ -13,7 +13,7 @@ def read_root():
     return {"Welcome to Autolify Web Service API"}
 
 
-@app.get("api/v1/ping")
+@app.get("/api/v1/ping")
 async def pong(settings: Settings = Depends(get_settings)):
     return {
         "ping": "pong!",
@@ -22,7 +22,12 @@ async def pong(settings: Settings = Depends(get_settings)):
     }
 
 
-@app.get("api/v1/items/{item_id}")
+@app.get("/api/v1/orders/{id}")
+def get_order(id: int):
+    return {"Order with id": id}
+
+
+@app.get("/api/v1/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
