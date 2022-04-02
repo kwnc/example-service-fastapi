@@ -15,7 +15,7 @@ def read_root():
     return {"Welcome to Autolify Web Service API"}
 
 
-@app.get("/api/v1/ping")
+@app.get("/api/v1/ping", tags=['configuration'])
 async def pong(response: Response, settings: Settings = Depends(get_settings)):
     response.status_code = status.HTTP_200_OK
     return {
@@ -25,15 +25,22 @@ async def pong(response: Response, settings: Settings = Depends(get_settings)):
     }
 
 
-@app.get("/api/v1/orders")
+@app.get("/api/v1/orders", tags=['orders'], summary='Retrieve all orders with optional Order Status query parameter',
+         description='Retrieves all orders with optional OrderStatus and non-optional Pagination query parameters',
+         response_description='List of Orders with specific Order Status and pagination parameters')
 def get_orders(response: Response, order_status: Optional[OrderStatus] = OrderStatus.active, page: int = 1,
                page_size: int = 10):
     response.status_code = status.HTTP_200_OK
     return {'Orders with status:': order_status, 'Page': page, 'Page size': page_size}
 
 
-@app.get("/api/v1/orders/{id}", status_code=status.HTTP_200_OK)
+@app.get("/api/v1/orders/{id}", status_code=status.HTTP_200_OK, tags=['orders'])
 def get_order(response: Response, order_id: int, query: Optional[str] = None):
+    """
+    Retrieves specific Order by ID
+
+    - **id** mandatory path parameter
+    """
     if order_id > 5:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {'error': f'Order {order_id} not found'}
