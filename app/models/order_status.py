@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class OrderStatus(str, Enum):
-    active = 'ACTIVE'
-    hold = 'HOLD'
-    archived = 'ARCHIVED'
+    active = 'active'
+    hold = 'hold'
+    archived = 'archived'

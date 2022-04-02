@@ -25,8 +25,8 @@ async def pong(settings: Settings = Depends(get_settings)):
 
 
 @app.get("/api/v1/orders")
-def get_orders(status: Optional[OrderStatus] = OrderStatus.active):
-    return {'message': f'All orders provided with status: {status}'}
+def get_orders(status: Optional[OrderStatus] = OrderStatus.active, page: int = 1, page_size: int = 10):
+    return {'Orders with status:': status, 'Page': page, 'Page size': page_size}
 
 
 @app.get("/api/v1/orders/{id}")
@@ -39,7 +39,7 @@ def custom_openapi():
         return app.openapi_schema
     openapi_schema = get_openapi(
         title="Autolify Web Service FastAPI",
-        version="0.1.1",
+        version="0.1.2",
         description="This is Autolify API Schema",
         routes=app.routes,
     )
