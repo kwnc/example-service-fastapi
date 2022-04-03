@@ -28,7 +28,7 @@ def custom_openapi():
         return app.openapi_schema
     openapi_schema = get_openapi(
         title="Autolify Web Service FastAPI",
-        version="0.1.3",
+        version="0.1.4",
         description="This is Autolify API Schema",
         routes=app.routes,
     )
