@@ -5,7 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/autolify-backend" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.10.4 Docker (autolify-fastapi-image:latest)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.10.4 Docker (autolify-fastapi-image:0.1.5)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

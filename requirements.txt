@@ -1,3 +1,9 @@
+flake8>=4.0.1,<4.1.0
+python-dotenv>=0.20.0,<0.21.0
 fastapi>=0.75.1,<1.0.0
+fastapi-pagination>=0.9.1,<1.0.0
 pydantic>=1.9.0,<2.0.0
 uvicorn>=0.17.6,<0.18.0
+motor>=2.5.1,<2.6.0
+pymongo==3.12.3
+dnspython==2.0.0

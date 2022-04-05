@@ -8,8 +8,8 @@ log = logging.getLogger("uvicorn")
 
 
 class Settings(BaseSettings):
-    environment: str = os.getenv("ENVIRONMENT", "dev")
-    testing: bool = os.getenv("TESTING", 0)
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "dev")
+    TESTING: bool = os.getenv("TESTING", 0)
 
 
 @lru_cache()

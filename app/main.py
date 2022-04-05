@@ -1,11 +1,15 @@
 from fastapi import FastAPI, Depends, status, Response
 from fastapi.openapi.utils import get_openapi
 
-from app.config import get_settings, Settings
-from app.routes import order_routes
+from app.core.config import get_settings, Settings
+from app.routes import customer_routes, order_routes, service_routes, vehicle_routes
 
-app = FastAPI()
+app = FastAPI(redoc_url=None)
+
+app.include_router(customer_routes.router)
 app.include_router(order_routes.router)
+app.include_router(service_routes.router)
+app.include_router(vehicle_routes.router)
 
 
 @app.get("/")
@@ -18,8 +22,8 @@ async def pong(response: Response, settings: Settings = Depends(get_settings)):
     response.status_code = status.HTTP_200_OK
     return {
         "ping": "pong!",
-        "environment": settings.environment,
-        "testing": settings.testing
+        "environment": settings.ENVIRONMENT,
+        "testing": settings.TESTING
     }
 
 
@@ -27,9 +31,9 @@ def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
     openapi_schema = get_openapi(
-        title="Autolify Web Service FastAPI",
-        version="0.1.4",
-        description="This is Autolify API Schema",
+        title='Autolify Web Service API',
+        version='0.1.5',
+        description='Autolify API Schema',
         routes=app.routes,
     )
     openapi_schema["info"]["x-logo"] = {
