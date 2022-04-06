@@ -2,13 +2,14 @@ from fastapi import FastAPI, Depends, status, Response
 from fastapi.openapi.utils import get_openapi
 
 from app.core.config import get_settings, Settings
-from app.routes import customer_routes, order_routes, service_routes, vehicle_routes
+from app.routes import customer_routes, order_routes, service_routes, user_routes, vehicle_routes
 
 app = FastAPI(redoc_url=None)
 
 app.include_router(customer_routes.router)
 app.include_router(order_routes.router)
 app.include_router(service_routes.router)
+app.include_router(user_routes.router)
 app.include_router(vehicle_routes.router)
 
 

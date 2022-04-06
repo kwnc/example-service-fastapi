@@ -32,14 +32,30 @@ class OrderModel(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
-        # schema_extra = {
-        #     "example": {
-        #         "name": "Jane Doe",
-        #         "email": "jdoe@example.com",
-        #         "course": "Experiments, Science, and Fashion in Nanophotonics",
-        #         "gpa": "3.0",
-        #     }
-        # }
+        schema_extra = {
+            "example": {
+                "vehicle": {
+                    "license_plate": "string",
+                    "brand": "string",
+                    "model": "string"
+                },
+                "services": "list of services",
+                "images": [
+                    {
+                        "url": "string",
+                        "alias": "string"
+                    }
+                ],
+                "entry_date": "2022-04-06T16:21:19.914245",
+                "exit_date": "2022-04-06T16:21:20.185Z",
+                "order_status": "active",
+                "observations": "string",
+                "gasoline_level": "half",
+                "drown": False,
+                "driven": False,
+                "scratched": False
+            }
+        }
 
 
 class UpdateOrderModel(BaseModel):

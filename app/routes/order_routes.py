@@ -3,18 +3,14 @@ from fastapi import APIRouter, Body, HTTPException, status, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
+from app.core.database import db
 from app.models.order_model import OrderModel
 from app.models.details import OrderStatus
-from app.core.database import db
 
 router = APIRouter(
     prefix='/api/v1/orders',
-    tags=['orders']
+    tags=['order']
 )
-
-
-def required_functionality():
-    return {'message': 'Learning FastAPI is important'}
 
 
 @router.post(path="", response_description="Add new order")
@@ -30,29 +26,37 @@ async def post_order(order: OrderModel = Body(...)):
             response_description='List of Orders with specific Order Status and pagination parameters')
 async def get_orders(response: Response, order_status: Optional[OrderStatus] = OrderStatus.active, page: int = 1,
                      page_size: int = 10):
-    orders = await db["order"].find({'order_status': order_status}).to_list(page_size)
-    if len(orders):
-        response.status_code = status.HTTP_200_OK
-        return {
-            'orders': orders,
-            'page': page,
-            'page_size': page_size,
-        }
+    if page == 1:
+        orders = await db["order"].find({'order_status': order_status}).to_list(page_size)
+    elif page == 2:
+        orders = await db["order"].find({'order_status': order_status}).skip(page_size).to_list(page_size)
     else:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {'No orders found with status': order_status}
+        orders = await db["order"].find({'order_status': order_status}).skip((page - 1) * page_size).to_list(
+            page_size)
+    response.status_code = status.HTTP_200_OK
+    return {
+        'orders': orders,
+        'page': page,
+        'page_size': page_size,
+    }
 
 
-@router.get("/{id}", status_code=status.HTTP_200_OK)
-async def get_order(order_id: str, query: Optional[str] = None):
+@router.get("/{id}", response_model=OrderModel, status_code=status.HTTP_200_OK)
+async def get_order(order_id: str):
     """
     Retrieves specific Order by ID
 
     - **id** mandatory path parameter
     """
     if (order := await db["order"].find_one({"_id": order_id})) is not None:
-        return {
-            'order': order,
-            'query': query
-        }
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Student {order_id} not found")
+        return order
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Order {order_id} not found")
+
+
+@router.delete("/{id}", response_description="Delete a order")
+async def delete_order(order_id: str):
+    delete_result = await db["order"].delete_one({"_id": order_id})
+    if delete_result.deleted_count == 1:
+        return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=404, detail=f"Order {order_id} not found")
