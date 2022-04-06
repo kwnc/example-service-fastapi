@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from app.core.database import db
 from app.models.order_model import OrderModel
 from app.models.details import OrderStatus
+from app.services import order_service
 
 router = APIRouter(
     prefix='/api/v1/orders',
@@ -48,10 +49,7 @@ async def get_order(order_id: str):
 
     - **id** mandatory path parameter
     """
-    if (order := await db["order"].find_one({"_id": order_id})) is not None:
-        return order
-    else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Order {order_id} not found")
+    return order_service.get_by_id(order_id=order_id)
 
 
 @router.delete("/{id}", response_description="Delete a order")
