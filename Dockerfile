@@ -10,7 +10,7 @@ WORKDIR /code
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV MONGODB_URL="mongodb+srv://autolify_client:ZS3mA0U4kxqkxrqn@auotlify-cluster.3f6lo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+ENV MONGODB_URL=[MongoDBURL]
 
 # install dependencies
 COPY requirements.txt /code/requirements.txt
